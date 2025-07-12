@@ -7,6 +7,13 @@
 </head>
 <body>
 
+    <div class="text-block">
+  <p id="it">
+    Wake up Shay... secret message here
+</p>
+  <p id="it2"></p>
+</div>
+
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Space+Mono&display=swap");
 
@@ -23,6 +30,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  &.no-bg::before {
+    background-image: none;
+  }
   
   &::before {
     content: '';
@@ -47,22 +58,17 @@ body {
   color: #fff;
   text-shadow: 1px 1px 2px #000;
 }
-
     </style>
-
-    <div class="text-block">
-  <p>Macavity's a Mystery Cat: he's called the Hidden Paw—
-    For he's the master criminal who can defy the Law.
-    He's the bafflement of Scotland Yard, the Flying Squad's despair:
-    For when they reach the scene of crime—Macavity's not there!</p>
-</div>
-
-<script>
-    let textRevealRadius = 100;
+    
+    <script>
+        let textRevealRadius = 100;
 const textRevealPercent = 0.17; // percent of the viewport width, used to size textRevealRadius
 
-const st = new SplitText('p', { type: 'chars', charsClass: 'char' });
-st.chars.forEach((char) => (char.orig = char.textContent));
+let st;
+function splitText(){
+  st = new SplitText('p', { type: 'chars', charsClass: 'char' });
+st.chars.forEach((char) => (char.orig = char.textContent)); 
+}
 
 const upperAndLowerCase = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const getRandomLetter = () =>
@@ -134,9 +140,24 @@ function init() {
   updateText({ pageX: 0, pageY: 0 });
 }
 
-init();
+  splitText();
+  init();
 
-</script>
-    
+setTimeout(() => {
+document.getElementById('it')?.remove();
+document.getElementById('it2').textContent = "Good Luck finding it here!";
+},7000);
+
+setTimeout(() => {
+  splitText();
+  init();
+},7001);
+
+
+setTimeout(() => {
+document.getElementById('it2')?.remove();
+  document.body.classList.add('no-bg');
+},15000);
+    </script>
 </body>
 </html>
